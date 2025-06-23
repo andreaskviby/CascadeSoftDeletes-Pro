@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes as LaravelSoftDeletes;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
 use Stafe\CascadePro\Events\DeletedCascade;
 use Stafe\CascadePro\Events\DeletingCascade;
 use Stafe\CascadePro\Events\RestoredCascade;
@@ -117,17 +118,30 @@ trait CascadeSoftDeletes
 
     protected function processPivotDeletion(Relation $relation, bool $restoring = false): void
     {
-        if (method_exists($relation, 'getTable')) {
-            $table = $relation->getTable();
-            if (in_array($table, config('cascadepro.pivot_tables', []))) {
-                $query = $relation->newPivotQuery();
-                $column = $restoring ? 'deleted_at' : $relation->getRelated()->getDeletedAtColumn();
-                if ($restoring) {
-                    $query->whereNotNull($column)->update([$column => null]);
-                } else {
-                    $query->whereNull($column)->update([$column => now()]);
-                }
+        if (! method_exists($relation, 'getTable')) {
+            return;
+        }
+
+        $table = $relation->getTable();
+        if (! in_array($table, config('cascadepro.pivot_tables', []))) {
+            return;
+        }
+
+        $query = $relation->newPivotQuery();
+        $hasDeletedAt = Schema::hasColumn($table, 'deleted_at');
+
+        if ($restoring) {
+            if ($hasDeletedAt) {
+                $query->whereNotNull('deleted_at')->update(['deleted_at' => null]);
             }
+
+            return;
+        }
+
+        if ($hasDeletedAt) {
+            $query->whereNull('deleted_at')->update(['deleted_at' => now()]);
+        } else {
+            $query->delete();
         }
     }
 }
