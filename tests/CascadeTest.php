@@ -8,7 +8,6 @@ use Stafe\CascadePro\Events\RestoredCascade;
 use Stafe\CascadePro\Events\RestoringCascade;
 use Stafe\CascadePro\Jobs\CascadeSoftDeleteJob;
 use Stafe\CascadePro\Tests\Fixtures\Node;
-use Stafe\CascadePro\Tests\Fixtures\Tag;
 
 it('cascades deletes and restores', function () {
     $parent = Node::create(['name' => 'p']);

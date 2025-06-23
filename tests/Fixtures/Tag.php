@@ -5,7 +5,6 @@ namespace Stafe\CascadePro\Tests\Fixtures;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Stafe\CascadePro\CascadeSoftDeletes;
-use Stafe\CascadePro\Tests\Fixtures\Node;
 
 class Tag extends Model
 {
