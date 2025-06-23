@@ -1,5 +1,4 @@
 ![Laravel Cascade Pro](8CFBF222-9389-4334-B853-4D1F2B777FE0.png)
-
 # Laravel Cascade Pro
 
 A drop-in trait that extends Laravel soft deletes so related models are deleted and restored automatically.
@@ -16,7 +15,7 @@ A drop-in trait that extends Laravel soft deletes so related models are deleted 
 ## Installation
 
 ```bash
-composer require stafe/laravel-cascade-pro
+composer require andreaskviby/CascadeSoftDeletes-Pro
 ```
 
 Publish the configuration file:
@@ -60,6 +59,15 @@ The package emits events you can listen for:
 php artisan cascade:flush {model}  # hard delete soft-deleted trees
 php artisan cascade:scan           # list models missing cascade mapping
 ```
+
+## Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
+
+## About Me
+
+This package is maintained by [Andreas Kviby](https://github.com/andreaskviby).
+I enjoy building tools for the Laravel community and appreciate any feedback.
 
 ## License
 
