@@ -47,3 +47,27 @@ it('chunks large sets', function () {
     $parent->delete();
     Bus::assertDispatched(CascadeSoftDeleteJob::class, 2);
 });
+
+it('handles pivot soft deletes', function () {
+    $node = Node::create(['name' => 'n']);
+    $tag = \Stafe\CascadePro\Tests\Fixtures\Tag::create(['name' => 't']);
+    $node->tags()->attach($tag->id);
+
+    $node->delete();
+
+    $exists = \DB::table('node_tag')
+        ->where('node_id', $node->id)
+        ->whereNotNull('deleted_at')
+        ->exists();
+
+    expect($exists)->toBeTrue();
+
+    Node::withTrashed()->find($node->id)->restore();
+
+    $exists = \DB::table('node_tag')
+        ->where('node_id', $node->id)
+        ->whereNull('deleted_at')
+        ->exists();
+
+    expect($exists)->toBeTrue();
+});

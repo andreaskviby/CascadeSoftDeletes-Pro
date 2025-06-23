@@ -12,7 +12,7 @@ class Node extends Model
 
     protected $fillable = ['name', 'parent_id'];
 
-    protected array $cascadeDeletes = ['children'];
+    protected array $cascadeDeletes = ['children', 'tags'];
 
     public function parent()
     {
@@ -22,5 +22,10 @@ class Node extends Model
     public function children()
     {
         return $this->hasMany(self::class, 'parent_id');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class)->withPivot('deleted_at');
     }
 }
