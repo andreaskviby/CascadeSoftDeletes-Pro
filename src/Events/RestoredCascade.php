@@ -7,7 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class RestoredCascade
 {
-    public function __construct(public Model $root, public Collection $batch)
-    {
-    }
+    public function __construct(public Model $root, public Collection $batch) {}
 }

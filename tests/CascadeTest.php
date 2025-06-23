@@ -6,7 +6,6 @@ use Stafe\CascadePro\Events\DeletedCascade;
 use Stafe\CascadePro\Events\DeletingCascade;
 use Stafe\CascadePro\Events\RestoredCascade;
 use Stafe\CascadePro\Events\RestoringCascade;
-use Stafe\CascadePro\Jobs\CascadeRestoreJob;
 use Stafe\CascadePro\Jobs\CascadeSoftDeleteJob;
 use Stafe\CascadePro\Tests\Fixtures\Node;
 

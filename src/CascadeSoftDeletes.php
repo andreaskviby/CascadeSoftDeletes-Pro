@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletes as LaravelSoftDeletes;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Stafe\CascadePro\Events\DeletedCascade;
 use Stafe\CascadePro\Events\DeletingCascade;
 use Stafe\CascadePro\Events\RestoredCascade;
@@ -22,7 +21,7 @@ trait CascadeSoftDeletes
     public static function bootCascadeSoftDeletes(): void
     {
         static::deleted(function (Model $model) {
-            if (!$model->isForceDeleting()) {
+            if (! $model->isForceDeleting()) {
                 $model->runCascadeDelete();
             }
         });
@@ -68,7 +67,7 @@ trait CascadeSoftDeletes
         $connection = config('cascadepro.queue_connection', config('queue.default'));
 
         if ($models->count() > $chunk) {
-            $models->chunk($chunk)->each(function ($chunked) use ($jobClass, $connection, $method) {
+            $models->chunk($chunk)->each(function ($chunked) use ($jobClass, $connection) {
                 dispatch(new $jobClass($chunked->modelKeys(), $chunked->first()::class))
                     ->onConnection($connection);
             });
@@ -106,7 +105,7 @@ trait CascadeSoftDeletes
         $relation = $this;
 
         foreach ($parts as $part) {
-            if (!method_exists($relation, $part)) {
+            if (! method_exists($relation, $part)) {
                 return null;
             }
 

@@ -8,7 +8,7 @@ use Stafe\CascadePro\CascadeSoftDeletes;
 
 class Node extends Model
 {
-    use SoftDeletes, CascadeSoftDeletes;
+    use CascadeSoftDeletes, SoftDeletes;
 
     protected $fillable = ['name', 'parent_id'];
 

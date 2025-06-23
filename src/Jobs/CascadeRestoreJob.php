@@ -12,9 +12,7 @@ class CascadeRestoreJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(public array $ids, public string $model)
-    {
-    }
+    public function __construct(public array $ids, public string $model) {}
 
     public function handle(): void
     {
